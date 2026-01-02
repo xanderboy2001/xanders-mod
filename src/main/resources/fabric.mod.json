@@ -18,19 +18,12 @@
 		"main": [
 			"xander.mod.XandersMod"
 		],
-		"client": [
-			"xander.mod.XandersModClient"
-		],
 		"fabric-datagen": [
 			"xander.mod.XandersModDataGenerator"
 		]
 	},
 	"mixins": [
-		"xanders-mod.mixins.json",
-		{
-			"config": "xanders-mod.client.mixins.json",
-			"environment": "client"
-		}
+		"xanders-mod.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.18.4",
