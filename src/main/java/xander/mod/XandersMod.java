@@ -20,6 +20,7 @@ public class XandersMod implements ModInitializer {
 		// Proceed with mild caution.
 
 		ModBlocks.registerWalls();
+		ModItemGroups.register();
 
 		LOGGER.info("Hello Fabric world!");
 	}
