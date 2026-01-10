@@ -43,6 +43,7 @@ public class ModBlocks {
     }
 
     public static void registerWalls() {
+        // Logs
         registerWall("oak", Blocks.OAK_LOG);
         registerWall("spruce", Blocks.SPRUCE_LOG);
         registerWall("birch", Blocks.BIRCH_LOG);
@@ -52,5 +53,8 @@ public class ModBlocks {
         registerWall("mangrove", Blocks.MANGROVE_LOG);
         registerWall("cherry", Blocks.CHERRY_LOG);
         registerWall("pale_oak", Blocks.PALE_OAK_LOG);
+
+        // Stone
+        registerWall("stone", Blocks.STONE);
     }
 }
