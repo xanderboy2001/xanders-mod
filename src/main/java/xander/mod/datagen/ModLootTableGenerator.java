@@ -15,7 +15,7 @@ public class ModLootTableGenerator extends FabricBlockLootTableProvider {
 
     @Override
     public void generate() {
-        ModBlocks.LOG_TO_WALL.forEach((log, wall) -> {
+        ModBlocks.BLOCK_TO_WALL.forEach((log, wall) -> {
             this.addDrop(wall);
         });
     }

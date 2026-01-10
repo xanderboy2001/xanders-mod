@@ -18,7 +18,7 @@ public class ModModelGenerator extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
-        ModBlocks.LOG_TO_WALL.forEach((log, wall) -> generateWallModels(generator, log, wall));
+        ModBlocks.BLOCK_TO_WALL.forEach((log, wall) -> generateWallModels(generator, log, wall));
     }
 
     private void generateWallModels(BlockStateModelGenerator generator, Block log, Block wall) {

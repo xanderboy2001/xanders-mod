@@ -21,7 +21,7 @@ public class ModTagGenerator extends FabricTagProvider.BlockTagProvider {
         TagBuilder axeTag = getTagBuilder(BlockTags.AXE_MINEABLE);
         TagBuilder logTag = getTagBuilder(BlockTags.LOGS_THAT_BURN);
 
-        ModBlocks.LOG_TO_WALL.forEach((log, wall) -> {
+        ModBlocks.BLOCK_TO_WALL.forEach((log, wall) -> {
             Identifier wallId = Identifier.of("xander", wall.getTranslationKey().replace("block.xander.", ""));
             wallTag.add(wallId);
             axeTag.add(wallId);

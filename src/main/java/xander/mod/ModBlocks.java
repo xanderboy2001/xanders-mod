@@ -16,7 +16,7 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
 public class ModBlocks {
-    public static final Map<Block, Block> LOG_TO_WALL = new HashMap<>();
+    public static final Map<Block, Block> BLOCK_TO_WALL = new HashMap<>();
 
     public static Block registerWall(String name, Block baseBlock) {
         Identifier id = Identifier.of("xander", name + "_wall");
@@ -38,7 +38,7 @@ public class ModBlocks {
                 itemKey,
                 new BlockItem(wall, new Item.Settings().registryKey(itemKey)));
 
-        LOG_TO_WALL.put(baseBlock, wall);
+        BLOCK_TO_WALL.put(baseBlock, wall);
         return wall;
     }
 

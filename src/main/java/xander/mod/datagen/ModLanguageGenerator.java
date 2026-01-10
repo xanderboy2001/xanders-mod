@@ -16,7 +16,7 @@ public class ModLanguageGenerator extends FabricLanguageProvider {
     @Override
     public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup,
             TranslationBuilder translationBuilder) {
-        ModBlocks.LOG_TO_WALL.forEach((log, wall) -> {
+        ModBlocks.BLOCK_TO_WALL.forEach((log, wall) -> {
             String wallName = createReadableName(wall.getTranslationKey());
             translationBuilder.add(wall, wallName);
             translationBuilder.add(wall.asItem(), wallName);

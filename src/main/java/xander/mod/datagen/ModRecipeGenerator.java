@@ -11,19 +11,19 @@ import net.minecraft.registry.RegistryWrapper;
 import xander.mod.ModBlocks;
 
 public class ModRecipeGenerator extends FabricRecipeProvider {
-    public ModRecipeGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public ModRecipeGenerator(FabricDataOutput output,
+            CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
     protected RecipeGenerator getRecipeGenerator(
-        RegistryWrapper.WrapperLookup registries,
-        RecipeExporter exporter
-    ) {
+            RegistryWrapper.WrapperLookup registries,
+            RecipeExporter exporter) {
         return new RecipeGenerator(registries, exporter) {
             @Override
             public void generate() {
-                ModBlocks.LOG_TO_WALL.forEach((log, wall) -> {
+                ModBlocks.BLOCK_TO_WALL.forEach((log, wall) -> {
                     offerWallRecipe(RecipeCategory.BUILDING_BLOCKS, wall, log);
                     offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, wall, log);
                 });
