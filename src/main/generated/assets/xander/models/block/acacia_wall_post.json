@@ -1,7 +1,6 @@
 {
   "parent": "minecraft:block/template_wall_post",
   "textures": {
-    "side": "minecraft:block/acacia_log",
-    "top": "minecraft:block/acacia_log_top"
+    "wall": "minecraft:block/acacia_log"
   }
 }

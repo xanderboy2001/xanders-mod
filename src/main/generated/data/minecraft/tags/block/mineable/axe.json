@@ -1,14 +1,14 @@
 {
   "values": [
-    "xander:oak_wall",
-    "xander:jungle_wall",
-    "xander:cherry_wall",
-    "xander:stone_wall",
-    "xander:dark_oak_wall",
-    "xander:birch_wall",
-    "xander:mangrove_wall",
-    "xander:acacia_wall",
     "xander:spruce_wall",
-    "xander:pale_oak_wall"
+    "xander:birch_wall",
+    "xander:dark_oak_wall",
+    "xander:stone_wall",
+    "xander:pale_oak_wall",
+    "xander:jungle_wall",
+    "xander:mangrove_wall",
+    "xander:cherry_wall",
+    "xander:acacia_wall",
+    "xander:oak_wall"
   ]
 }
