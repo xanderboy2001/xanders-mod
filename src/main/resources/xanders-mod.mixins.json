@@ -1,14 +1,9 @@
 {
-	"required": true,
-	"package": "xander.mod.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"ExampleMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	},
-	"overwrites": {
-		"requireAnnotations": true
-	}
+  "required": true,
+  "package": "xander.mod.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": ["CampfirePlacementMixin"],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }
