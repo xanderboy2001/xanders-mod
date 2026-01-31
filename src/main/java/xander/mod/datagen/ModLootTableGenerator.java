@@ -8,15 +8,18 @@ import net.minecraft.registry.RegistryWrapper;
 import xander.mod.ModBlocks;
 
 public class ModLootTableGenerator extends FabricBlockLootTableProvider {
-    public ModLootTableGenerator(FabricDataOutput dataOutput,
-            CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
-        super(dataOutput, registryLookup);
-    }
+  public ModLootTableGenerator(FabricDataOutput dataOutput,
+      CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+    super(dataOutput, registryLookup);
+  }
 
-    @Override
-    public void generate() {
-        ModBlocks.BLOCK_TO_WALL.forEach((log, wall) -> {
-            this.addDrop(wall);
-        });
-    }
+  @Override
+  public void generate() {
+    ModBlocks.BLOCK_TO_WALL.forEach((log, wall) -> {
+      this.addDrop(wall);
+    });
+    ModBlocks.BLOCK_TO_STAIRS.forEach((block, stairs) -> {
+      this.addDrop(stairs);
+    });
+  }
 }

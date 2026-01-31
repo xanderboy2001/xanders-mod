@@ -1,4 +1,7 @@
 // 1.21.11	-999999999-01-01T00:00:00	Xander's Mod/Tags for minecraft:block
-57e9d53f893dcaf2950036ea02a4bda93d059891 data/minecraft/tags/block/logs_that_burn.json
-57e9d53f893dcaf2950036ea02a4bda93d059891 data/minecraft/tags/block/mineable/axe.json
-57e9d53f893dcaf2950036ea02a4bda93d059891 data/minecraft/tags/block/walls.json
+06895800f7a8f1683a1ab864fd817ae7997ea505 data/minecraft/tags/block/logs_that_burn.json
+06895800f7a8f1683a1ab864fd817ae7997ea505 data/minecraft/tags/block/mineable/axe.json
+59d3d582220d9010483cd4f0d472a4fa8fc83a90 data/minecraft/tags/block/mineable/hoe.json
+59d3d582220d9010483cd4f0d472a4fa8fc83a90 data/minecraft/tags/block/stairs.json
+06895800f7a8f1683a1ab864fd817ae7997ea505 data/minecraft/tags/block/walls.json
+59d3d582220d9010483cd4f0d472a4fa8fc83a90 data/minecraft/tags/block/wool.json

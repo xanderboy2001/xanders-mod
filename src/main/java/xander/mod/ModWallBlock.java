@@ -36,17 +36,17 @@ public class ModWallBlock extends WallBlock {
 
       if (!world.isClient()) {
         BlockState newState = strippedBlock.getDefaultState()
-            .with(UP, state.get(UP))
-            .with(NORTH_WALL_SHAPE, state.get(NORTH_WALL_SHAPE))
-            .with(EAST_WALL_SHAPE, state.get(EAST_WALL_SHAPE))
-            .with(SOUTH_WALL_SHAPE, state.get(SOUTH_WALL_SHAPE))
-            .with(WEST_WALL_SHAPE, state.get(WEST_WALL_SHAPE))
-            .with(WATERLOGGED, state.get(WATERLOGGED));
+          .with(UP, state.get(UP))
+          .with(NORTH_WALL_SHAPE, state.get(NORTH_WALL_SHAPE))
+          .with(EAST_WALL_SHAPE, state.get(EAST_WALL_SHAPE))
+          .with(SOUTH_WALL_SHAPE, state.get(SOUTH_WALL_SHAPE))
+          .with(WEST_WALL_SHAPE, state.get(WEST_WALL_SHAPE))
+          .with(WATERLOGGED, state.get(WATERLOGGED));
 
         world.setBlockState(pos, newState, Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD);
 
         stack.damage(1, player,
-            player.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
+          player.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
       }
       return ActionResult.SUCCESS;
     }

@@ -17,6 +17,7 @@ import net.minecraft.util.Identifier;
 
 public class ModBlocks {
   public static final Map<Block, Block> BLOCK_TO_WALL = new HashMap<>();
+  public static final Map<Block, Block> BLOCK_TO_STAIRS = new HashMap<>();
 
   public static Block registerWall(String name, Block baseBlock, MapColor color) {
     Identifier id = Identifier.of("xander", name + "_wall");
@@ -26,21 +27,51 @@ public class ModBlocks {
     BlockSoundGroup soundGroup = baseBlock.getDefaultState().getSoundGroup();
 
     Block wall = new ModWallBlock(
-        AbstractBlock.Settings
-            .copy(baseBlock)
-            .mapColor(color)
-            .registryKey(blockKey)
-            .strength(baseBlock.getHardness(), baseBlock.getBlastResistance())
-            .sounds(soundGroup));
+      AbstractBlock.Settings
+        .copy(baseBlock)
+        .mapColor(color)
+        .registryKey(blockKey)
+        .strength(baseBlock.getHardness(), baseBlock.getBlastResistance())
+        .sounds(soundGroup)
+      );
     Registry.register(Registries.BLOCK, id, wall);
 
     Registry.register(
-        Registries.ITEM,
-        itemKey,
-        new BlockItem(wall, new Item.Settings().registryKey(itemKey)));
+      Registries.ITEM,
+      itemKey,
+      new BlockItem(wall, new Item.Settings().registryKey(itemKey)));
 
     BLOCK_TO_WALL.put(baseBlock, wall);
     return wall;
+  }
+
+  public static Block registerStairs(String name, Block baseBlock, MapColor color) {
+    Identifier id = Identifier.of("xander", name + "_stair");
+    RegistryKey<Block> blockKey = RegistryKey.of(Registries.BLOCK.getKey(), id);
+    RegistryKey<Item> itemKey = RegistryKey.of(Registries.ITEM.getKey(), id);
+
+    BlockSoundGroup soundGroup = baseBlock.getDefaultState().getSoundGroup();
+
+    Block stairs = new ModStairsBlock(
+      baseBlock.getDefaultState(),
+      AbstractBlock.Settings
+        .copy(baseBlock)
+        .mapColor(color)
+        .registryKey(blockKey)
+        .strength(baseBlock.getHardness(), baseBlock.getBlastResistance())
+        .sounds(soundGroup)
+    );
+    Registry.register(Registries.BLOCK, id, stairs);
+
+    Registry.register(
+      Registries.ITEM,
+      itemKey,
+      new BlockItem(stairs, new Item.Settings().registryKey(itemKey))
+    );
+
+    BLOCK_TO_STAIRS.put(baseBlock, stairs);
+
+    return stairs;
   }
 
   public static void registerWalls() {
@@ -79,5 +110,24 @@ public class ModBlocks {
 
     // Stone
     registerWall("stone", Blocks.STONE, MapColor.STONE_GRAY);
+  }
+
+  public static void registerWoolStairs() {
+    registerStairs("white_wool", Blocks.WHITE_WOOL, MapColor.WHITE);
+    registerStairs("orange_wool", Blocks.ORANGE_WOOL, MapColor.ORANGE);
+    registerStairs("magenta_wool", Blocks.MAGENTA_WOOL, MapColor.MAGENTA);
+    registerStairs("light_blue_wool", Blocks.LIGHT_BLUE_WOOL, MapColor.LIGHT_BLUE);
+    registerStairs("yellow_wool", Blocks.YELLOW_WOOL, MapColor.YELLOW);
+    registerStairs("lime_wool", Blocks.LIME_WOOL, MapColor.LIME);
+    registerStairs("pink_wool", Blocks.PINK_WOOL, MapColor.PINK);
+    registerStairs("gray_wool", Blocks.GRAY_WOOL, MapColor.GRAY);
+    registerStairs("light_gray_wool", Blocks.LIGHT_GRAY_WOOL, MapColor.LIGHT_GRAY);
+    registerStairs("cyan_wool", Blocks.CYAN_WOOL, MapColor.CYAN);
+    registerStairs("purple_wool", Blocks.PURPLE_WOOL, MapColor.PURPLE);
+    registerStairs("blue_wool", Blocks.BLUE_WOOL, MapColor.BLUE);
+    registerStairs("brown_wool", Blocks.BROWN_WOOL, MapColor.BROWN);
+    registerStairs("green_wool", Blocks.GREEN_WOOL, MapColor.GREEN);
+    registerStairs("red_wool", Blocks.RED_WOOL, MapColor.RED);
+    registerStairs("black_wool", Blocks.BLACK_WOOL, MapColor.BLACK);
   }
 }
