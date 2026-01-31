@@ -1,23 +1,23 @@
 {
   "values": [
-    "xander:stripped_dark_oak_wall",
     "xander:stripped_oak_wall",
-    "xander:birch_wall",
-    "xander:stripped_mangrove_wall",
-    "xander:jungle_wall",
-    "xander:pale_oak_wall",
-    "xander:stripped_cherry_wall",
-    "xander:spruce_wall",
-    "xander:mangrove_wall",
-    "xander:stone_wall",
     "xander:oak_wall",
-    "xander:dark_oak_wall",
-    "xander:acacia_wall",
-    "xander:stripped_spruce_wall",
     "xander:stripped_pale_oak_wall",
+    "xander:pale_oak_wall",
     "xander:stripped_birch_wall",
     "xander:cherry_wall",
-    "xander:stripped_jungle_wall",
-    "xander:stripped_acacia_wall"
+    "xander:spruce_wall",
+    "xander:stripped_spruce_wall",
+    "xander:mangrove_wall",
+    "xander:stripped_acacia_wall",
+    "xander:stone_wall",
+    "xander:jungle_wall",
+    "xander:acacia_wall",
+    "xander:stripped_dark_oak_wall",
+    "xander:stripped_mangrove_wall",
+    "xander:stripped_cherry_wall",
+    "xander:birch_wall",
+    "xander:dark_oak_wall",
+    "xander:stripped_jungle_wall"
   ]
 }

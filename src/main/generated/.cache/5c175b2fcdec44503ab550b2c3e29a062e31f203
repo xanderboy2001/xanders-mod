@@ -1,7 +1,7 @@
 // 1.21.11	-999999999-01-01T00:00:00	Xander's Mod/Tags for minecraft:block
-06895800f7a8f1683a1ab864fd817ae7997ea505 data/minecraft/tags/block/logs_that_burn.json
-06895800f7a8f1683a1ab864fd817ae7997ea505 data/minecraft/tags/block/mineable/axe.json
-59d3d582220d9010483cd4f0d472a4fa8fc83a90 data/minecraft/tags/block/mineable/hoe.json
-59d3d582220d9010483cd4f0d472a4fa8fc83a90 data/minecraft/tags/block/stairs.json
-06895800f7a8f1683a1ab864fd817ae7997ea505 data/minecraft/tags/block/walls.json
-59d3d582220d9010483cd4f0d472a4fa8fc83a90 data/minecraft/tags/block/wool.json
+0df0aa4e6a6d74955aad39731474b8f91282f58d data/minecraft/tags/block/logs_that_burn.json
+0df0aa4e6a6d74955aad39731474b8f91282f58d data/minecraft/tags/block/mineable/axe.json
+4a2c3d4b75a9371cfa84e14865da2b3d49e4a97b data/minecraft/tags/block/mineable/hoe.json
+4a2c3d4b75a9371cfa84e14865da2b3d49e4a97b data/minecraft/tags/block/stairs.json
+0df0aa4e6a6d74955aad39731474b8f91282f58d data/minecraft/tags/block/walls.json
+4a2c3d4b75a9371cfa84e14865da2b3d49e4a97b data/minecraft/tags/block/wool.json
