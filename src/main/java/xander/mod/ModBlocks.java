@@ -46,7 +46,7 @@ public class ModBlocks {
   }
 
   public static Block registerStairs(String name, Block baseBlock, MapColor color) {
-    Identifier id = Identifier.of("xander", name + "_stair");
+    Identifier id = Identifier.of("xander", name + "_stairs");
     RegistryKey<Block> blockKey = RegistryKey.of(Registries.BLOCK.getKey(), id);
     RegistryKey<Item> itemKey = RegistryKey.of(Registries.ITEM.getKey(), id);
 
