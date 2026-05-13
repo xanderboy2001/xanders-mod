@@ -2,6 +2,7 @@
 
 .gradle/
 build/
+bin/
 out/
 classes/
 
@@ -31,6 +32,12 @@ bin/
 # fabric
 
 run/
+run/*
+!run/config/
+usercache.json
+usernamecache.json
+.fabric/
+src/main/generated/
 
 # java
 
