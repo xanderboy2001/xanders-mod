@@ -19,8 +19,12 @@ public class XandersMod implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		ModBlocks.registerWalls();
+		ModBlocks.registerLogWalls();
+		ModBlocks.registerStoneWalls();
+		ModBlocks.registerLogStairs();
 		ModBlocks.registerWoolStairs();
+		ModBlocks.registerLogSlabs();
+		ModBlocks.registerWoolSlabs();
 		ModItemGroups.register();
 
 		LOGGER.info("Hello Fabric world!");

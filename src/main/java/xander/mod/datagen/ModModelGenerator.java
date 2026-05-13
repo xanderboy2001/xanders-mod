@@ -21,6 +21,30 @@ public class ModModelGenerator extends FabricModelProvider {
   public void generateBlockStateModels(BlockStateModelGenerator generator) {
     ModBlocks.BLOCK_TO_WALL.forEach((base, wall) -> generateWallModels(generator, base, wall));
     ModBlocks.BLOCK_TO_STAIRS.forEach((base, stairs) -> generateStairsModels(generator, base, stairs));
+    ModBlocks.BLOCK_TO_SLAB.forEach((base, slab) -> generateSlabModels(generator, base, slab));
+  }
+
+  private void generateSlabModels(BlockStateModelGenerator generator, Block base, Block slab) {
+    Identifier textureId = TextureMap.getId(base);
+
+    TextureMap textures = new TextureMap()
+        .put(TextureKey.BOTTOM, textureId)
+        .put(TextureKey.TOP, textureId)
+        .put(TextureKey.SIDE, textureId)
+        .put(TextureKey.ALL, textureId);
+
+    Identifier bottomModel = Models.SLAB.upload(slab, textures, generator.modelCollector);
+    Identifier topModel = Models.SLAB_TOP.upload(slab, textures, generator.modelCollector);
+    Identifier doubleModel = Models.CUBE_ALL.upload(slab, "_double", textures, generator.modelCollector);
+
+    generator.blockStateCollector.accept(
+        BlockStateModelGenerator.createSlabBlockState(
+            slab,
+            BlockStateModelGenerator.createWeightedVariant(bottomModel),
+            BlockStateModelGenerator.createWeightedVariant(topModel),
+            BlockStateModelGenerator.createWeightedVariant(doubleModel)));
+
+    generator.registerParentedItemModel(slab, bottomModel);
   }
 
   private void generateStairsModels(BlockStateModelGenerator generator, Block base, Block stairs) {

@@ -36,6 +36,11 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
 
           offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stairs, base);
         });
+
+        ModBlocks.BLOCK_TO_SLAB.forEach((base, slab) -> {
+          offerSlabRecipe(RecipeCategory.BUILDING_BLOCKS, slab, base);
+          offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, slab, base);
+        });
       }
     };
   }

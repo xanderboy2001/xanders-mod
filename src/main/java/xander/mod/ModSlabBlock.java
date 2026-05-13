@@ -5,11 +5,10 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.StairsBlock;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -19,32 +18,31 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ModStairsBlock extends StairsBlock {
+
+public class ModSlabBlock extends SlabBlock {
   public static final Map<Block, Block> STRIPPABLES = new HashMap<>();
 
-  public ModStairsBlock(BlockState baseBlockState, Settings settings) {
-    super(baseBlockState, settings);
+  public ModSlabBlock(Settings settings) {
+    super(settings);
   }
 
   @Override
   protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-    ItemStack stack = player.getActiveItem();
+    ItemStack stack = player.getStackInHand(player.getActiveHand());
+
     if (stack.getItem() instanceof AxeItem && STRIPPABLES.containsKey(this)) {
       Block strippedBlock = STRIPPABLES.get(this);
 
-      world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0f, 1.0f);
+      world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0f);
 
       if (!world.isClient()) {
         BlockState newState = strippedBlock.getDefaultState()
-            .with(FACING, state.get(FACING))
-            .with(HALF, state.get(HALF))
-            .with(SHAPE, state.get(SHAPE))
-            .with(WATERLOGGED, state.get(WATERLOGGED));
+          .with(TYPE, state.get(TYPE))
+          .with(WATERLOGGED, state.get(WATERLOGGED));
 
         world.setBlockState(pos, newState, Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD);
 
-        stack.damage(1, player,
-            player.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
+        stack.damage(1, player, player.getActiveHand() == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
       }
       return ActionResult.SUCCESS;
     }

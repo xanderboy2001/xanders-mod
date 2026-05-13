@@ -21,5 +21,8 @@ public class ModLootTableGenerator extends FabricBlockLootTableProvider {
     ModBlocks.BLOCK_TO_STAIRS.forEach((block, stairs) -> {
       this.addDrop(stairs);
     });
+    ModBlocks.BLOCK_TO_SLAB.forEach((block, slab) -> {
+      this.addDrop(slab, this.slabDrops(slab));
+    });
   }
 }
