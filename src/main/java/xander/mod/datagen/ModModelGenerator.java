@@ -1,94 +1,100 @@
 package xander.mod.datagen;
 
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.block.Block;
-import net.minecraft.client.data.BlockStateModelGenerator;
-import net.minecraft.client.data.ItemModelGenerator;
-import net.minecraft.client.data.Models;
-import net.minecraft.client.data.TextureKey;
-import net.minecraft.client.data.TextureMap;
-import net.minecraft.util.Identifier;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
+import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Block;
 import xander.mod.ModBlocks;
 
 public class ModModelGenerator extends FabricModelProvider {
 
-  public ModModelGenerator(FabricDataOutput output) {
-    super(output);
+  public ModModelGenerator(FabricPackOutput _output_) {
+    super(_output_);
   }
 
   @Override
-  public void generateBlockStateModels(BlockStateModelGenerator generator) {
-    ModBlocks.BLOCK_TO_WALL.forEach((base, wall) -> generateWallModels(generator, base, wall));
-    ModBlocks.BLOCK_TO_STAIRS.forEach((base, stairs) -> generateStairsModels(generator, base, stairs));
-    ModBlocks.BLOCK_TO_SLAB.forEach((base, slab) -> generateSlabModels(generator, base, slab));
+  public void generateBlockStateModels(BlockModelGenerators _generator_) {
+    ModBlocks.BLOCK_TO_WALL.forEach((_base_, _wall_) -> generateWallModels(_generator_, _base_, _wall_));
+    ModBlocks.BLOCK_TO_STAIRS.forEach((_base_, _stairs_) -> generateStairsModels(_generator_, _base_, _stairs_));
+    ModBlocks.BLOCK_TO_SLAB.forEach((_base_, _slab_) -> generateSlabModels(_generator_, _base_, _slab_));
   }
 
-  private void generateSlabModels(BlockStateModelGenerator generator, Block base, Block slab) {
-    Identifier textureId = TextureMap.getId(base);
+  private void generateSlabModels(BlockModelGenerators _generator_, Block _base_, Block _slab_) {
+    TextureMapping textures = new TextureMapping()
+        .put(TextureSlot.BOTTOM,
+            TextureMapping.getBlockTexture(_base_))
+        .put(TextureSlot.TOP,
+            TextureMapping.getBlockTexture(
+                _base_))
+        .put(TextureSlot.SIDE,
+            TextureMapping.getBlockTexture(
+                _base_))
+        .put(TextureSlot.ALL, TextureMapping.getBlockTexture(_base_));
 
-    TextureMap textures = new TextureMap()
-        .put(TextureKey.BOTTOM, textureId)
-        .put(TextureKey.TOP, textureId)
-        .put(TextureKey.SIDE, textureId)
-        .put(TextureKey.ALL, textureId);
+    Identifier bottomModel = ModelTemplates.SLAB_BOTTOM.create(_slab_, textures, _generator_.modelOutput);
+    Identifier topModel = ModelTemplates.SLAB_TOP.create(_slab_, textures, _generator_.modelOutput);
+    Identifier doubleModel = ModelTemplates.CUBE_ALL.createWithSuffix(
+        _slab_, "_double", textures, _generator_.modelOutput);
 
-    Identifier bottomModel = Models.SLAB.upload(slab, textures, generator.modelCollector);
-    Identifier topModel = Models.SLAB_TOP.upload(slab, textures, generator.modelCollector);
-    Identifier doubleModel = Models.CUBE_ALL.upload(slab, "_double", textures, generator.modelCollector);
+    _generator_.blockStateOutput.accept(
+        BlockModelGenerators.createSlab(
+            _slab_,
+            BlockModelGenerators.plainVariant(bottomModel),
+            BlockModelGenerators.plainVariant(topModel),
+            BlockModelGenerators.plainVariant(doubleModel)));
 
-    generator.blockStateCollector.accept(
-        BlockStateModelGenerator.createSlabBlockState(
-            slab,
-            BlockStateModelGenerator.createWeightedVariant(bottomModel),
-            BlockStateModelGenerator.createWeightedVariant(topModel),
-            BlockStateModelGenerator.createWeightedVariant(doubleModel)));
-
-    generator.registerParentedItemModel(slab, bottomModel);
+    _generator_.registerSimpleItemModel(_slab_, bottomModel);
   }
 
-  private void generateStairsModels(BlockStateModelGenerator generator, Block base, Block stairs) {
-    Identifier textureId = TextureMap.getId(base);
+  private void generateStairsModels(BlockModelGenerators _generator_, Block _base_, Block _stairs_) {
+    TextureMapping textures = new TextureMapping()
+        .put(TextureSlot.BOTTOM,
+            TextureMapping.getBlockTexture(
+                _base_))
+        .put(TextureSlot.TOP,
+            TextureMapping.getBlockTexture(
+                _base_))
+        .put(TextureSlot.SIDE, TextureMapping.getBlockTexture(_base_));
 
-    TextureMap textures = new TextureMap()
-        .put(TextureKey.BOTTOM, textureId)
-        .put(TextureKey.TOP, textureId)
-        .put(TextureKey.SIDE, textureId);
+    Identifier innerModel = ModelTemplates.STAIRS_INNER.create(_stairs_, textures, _generator_.modelOutput);
+    Identifier straightModel = ModelTemplates.STAIRS_STRAIGHT.create(_stairs_, textures, _generator_.modelOutput);
+    Identifier outerModel = ModelTemplates.STAIRS_OUTER.create(_stairs_, textures, _generator_.modelOutput);
 
-    Identifier innerModel = Models.INNER_STAIRS.upload(stairs, textures, generator.modelCollector);
-    Identifier straightModel = Models.STAIRS.upload(stairs, textures, generator.modelCollector);
-    Identifier outerModel = Models.OUTER_STAIRS.upload(stairs, textures, generator.modelCollector);
-
-    generator.blockStateCollector.accept(BlockStateModelGenerator.createStairsBlockState(
-        stairs,
-        BlockStateModelGenerator.createWeightedVariant(
+    _generator_.blockStateOutput.accept(BlockModelGenerators.createStairs(
+        _stairs_,
+        BlockModelGenerators.plainVariant(
             innerModel),
-        BlockStateModelGenerator.createWeightedVariant(
+        BlockModelGenerators.plainVariant(
             straightModel),
-        BlockStateModelGenerator.createWeightedVariant(
+        BlockModelGenerators.plainVariant(
             outerModel)));
 
-    generator.registerParentedItemModel(stairs, straightModel);
+    _generator_.registerSimpleItemModel(_stairs_, straightModel);
   }
 
-  private void generateWallModels(BlockStateModelGenerator generator, Block base, Block wall) {
-    TextureMap textureMap = new TextureMap().put(TextureKey.WALL, TextureMap.getId(base));
+  private void generateWallModels(BlockModelGenerators _generator_, Block _base_, Block _wall_) {
+    TextureMapping textureMap = new TextureMapping().put(TextureSlot.WALL, TextureMapping.getBlockTexture(_base_));
 
-    Identifier postModelId = Models.TEMPLATE_WALL_POST.upload(wall, textureMap, generator.modelCollector);
-    Identifier sideModelId = Models.TEMPLATE_WALL_SIDE.upload(wall, textureMap, generator.modelCollector);
-    Identifier tallModelId = Models.TEMPLATE_WALL_SIDE_TALL.upload(wall, textureMap, generator.modelCollector);
+    Identifier postModelId = ModelTemplates.WALL_POST.create(_wall_, textureMap, _generator_.modelOutput);
+    Identifier sideModelId = ModelTemplates.WALL_LOW_SIDE.create(_wall_, textureMap, _generator_.modelOutput);
+    Identifier tallModelId = ModelTemplates.WALL_TALL_SIDE.create(_wall_, textureMap, _generator_.modelOutput);
 
-    generator.blockStateCollector.accept(BlockStateModelGenerator.createWallBlockState(
-        wall,
-        BlockStateModelGenerator.createWeightedVariant(postModelId),
-        BlockStateModelGenerator.createWeightedVariant(sideModelId),
-        BlockStateModelGenerator.createWeightedVariant(tallModelId)));
+    _generator_.blockStateOutput.accept(BlockModelGenerators.createWall(
+        _wall_,
+        BlockModelGenerators.plainVariant(postModelId),
+        BlockModelGenerators.plainVariant(sideModelId),
+        BlockModelGenerators.plainVariant(tallModelId)));
 
-    generator.registerParentedItemModel(wall,
-        Models.WALL_INVENTORY.upload(wall, textureMap, generator.modelCollector));
+    _generator_.registerSimpleItemModel(_wall_,
+        ModelTemplates.WALL_INVENTORY.create(_wall_, textureMap, _generator_.modelOutput));
   }
 
   @Override
-  public void generateItemModels(ItemModelGenerator generator) {
+  public void generateItemModels(ItemModelGenerators _generator_) {
   }
 }

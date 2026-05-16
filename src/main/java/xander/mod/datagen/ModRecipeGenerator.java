@@ -2,44 +2,44 @@ package xander.mod.datagen;
 
 import java.util.concurrent.CompletableFuture;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.data.recipe.RecipeExporter;
-import net.minecraft.data.recipe.RecipeGenerator;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.world.item.crafting.Ingredient;
 import xander.mod.ModBlocks;
 
 public class ModRecipeGenerator extends FabricRecipeProvider {
-  public ModRecipeGenerator(FabricDataOutput output,
-      CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+  public ModRecipeGenerator(FabricPackOutput output,
+      CompletableFuture<HolderLookup.Provider> registriesFuture) {
     super(output, registriesFuture);
   }
 
   @Override
-  protected RecipeGenerator getRecipeGenerator(
-      RegistryWrapper.WrapperLookup registries,
-      RecipeExporter exporter) {
-    return new RecipeGenerator(registries, exporter) {
+  protected RecipeProvider createRecipeProvider(
+      HolderLookup.Provider registries,
+      RecipeOutput exporter) {
+    return new RecipeProvider(registries, exporter) {
       @Override
-      public void generate() {
+      public void buildRecipes() {
         ModBlocks.BLOCK_TO_WALL.forEach((log, wall) -> {
-          offerWallRecipe(RecipeCategory.BUILDING_BLOCKS, wall, log);
-          offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, wall, log);
+          wall(RecipeCategory.BUILDING_BLOCKS, wall, log);
+          stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, wall, log);
         });
 
         ModBlocks.BLOCK_TO_STAIRS.forEach((base, stairs) -> {
-          createStairsRecipe(stairs, Ingredient.ofItem(base))
-              .criterion(hasItem(base), conditionsFromItem(base))
-              .offerTo(exporter);
+          stairBuilder(stairs, Ingredient.of(base))
+              .unlockedBy(getHasName(base), has(base))
+              .save(output);
 
-          offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, stairs, base);
+          stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, stairs, base);
         });
 
         ModBlocks.BLOCK_TO_SLAB.forEach((base, slab) -> {
-          offerSlabRecipe(RecipeCategory.BUILDING_BLOCKS, slab, base);
-          offerStonecuttingRecipe(RecipeCategory.BUILDING_BLOCKS, slab, base);
+          slab(RecipeCategory.BUILDING_BLOCKS, slab, base);
+          stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, slab, base);
         });
       }
     };

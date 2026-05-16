@@ -2,27 +2,28 @@ package xander.mod.datagen;
 
 import java.util.concurrent.CompletableFuture;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.minecraft.registry.RegistryWrapper;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
+import net.minecraft.core.HolderLookup;
 import xander.mod.ModBlocks;
 
-public class ModLootTableGenerator extends FabricBlockLootTableProvider {
-  public ModLootTableGenerator(FabricDataOutput dataOutput,
-      CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+public class ModLootTableGenerator extends FabricBlockLootSubProvider {
+  public ModLootTableGenerator(
+      FabricPackOutput dataOutput,
+      CompletableFuture<HolderLookup.Provider> registryLookup) {
     super(dataOutput, registryLookup);
   }
 
   @Override
   public void generate() {
     ModBlocks.BLOCK_TO_WALL.forEach((log, wall) -> {
-      this.addDrop(wall);
+      this.dropSelf(wall);
     });
     ModBlocks.BLOCK_TO_STAIRS.forEach((block, stairs) -> {
-      this.addDrop(stairs);
+      this.dropSelf(stairs);
     });
     ModBlocks.BLOCK_TO_SLAB.forEach((block, slab) -> {
-      this.addDrop(slab, this.slabDrops(slab));
+      this.add(slab, this.createSlabItemTable(slab));
     });
   }
 }

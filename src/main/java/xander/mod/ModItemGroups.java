@@ -1,69 +1,69 @@
 package xander.mod;
 
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTabOutput;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.level.block.Block;
 
 public class ModItemGroups {
   public static void register() {
-    ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(entries -> {
+    CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register(entries -> {
       addBuildingVariants(entries, false); // false = exclude wool
     });
 
-    ItemGroupEvents.modifyEntriesEvent(ItemGroups.COLORED_BLOCKS).register(entries -> {
+    CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COLORED_BLOCKS).register(entries -> {
       addColoredVariants(entries);
     });
   }
 
-  private static void addBuildingVariants(FabricItemGroupEntries entries, boolean isColoredGroup) {
+  private static void addBuildingVariants(FabricCreativeModeTabOutput entries, boolean isColoredGroup) {
     // add variants in reverse order (Wall -> Slab -> Stairs)
-    // because "addAfter" inserts immediately after the base block.
+    // because "insertAfter" inserts immediately after the base block.
     // Desired [Base] -> [Stairs] -> [Slab] -> [Wall]
 
     ModBlocks.BLOCK_TO_WALL.forEach((base, wall) -> {
       if (!isWool(base)) {
-        entries.addAfter(base, wall);
+        entries.insertAfter(base, wall);
       }
     });
 
     ModBlocks.BLOCK_TO_SLAB.forEach((base, slab) -> {
       if (!isWool(base)) {
-        entries.addAfter(base, slab);
+        entries.insertAfter(base, slab);
       }
     });
 
     ModBlocks.BLOCK_TO_STAIRS.forEach((base, stairs) -> {
       if (!isWool(base)) {
-        entries.addAfter(base, stairs);
+        entries.insertAfter(base, stairs);
       }
     });
   }
 
-  public static void addColoredVariants(FabricItemGroupEntries entries) {
+  public static void addColoredVariants(FabricCreativeModeTabOutput entries) {
     ModBlocks.BLOCK_TO_WALL.forEach((base, wall) -> {
       if (isWool(base)) {
-        entries.addAfter(base, wall);
+        entries.insertAfter(base, wall);
       }
     });
 
     ModBlocks.BLOCK_TO_SLAB.forEach((base, slab) -> {
       if (isWool(base)) {
-        entries.addAfter(base, slab);
+        entries.insertAfter(base, slab);
       }
     });
 
     ModBlocks.BLOCK_TO_STAIRS.forEach((base, stairs) -> {
       if (isWool(base)) {
-        entries.addAfter(base, stairs);
+        entries.insertAfter(base, stairs);
       }
     });
   }
 
   private static boolean isWool(Block block) {
-    Identifier id = Registries.BLOCK.getId(block);
+    Identifier id = BuiltInRegistries.BLOCK.getKey(block);
 
     return id.getPath().contains("wool");
   }

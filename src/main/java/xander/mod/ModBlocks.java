@@ -2,18 +2,17 @@ package xander.mod;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.MapColor;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
 
 public class ModBlocks {
   public static final Map<Block, Block> BLOCK_TO_WALL = new HashMap<>();
@@ -21,55 +20,55 @@ public class ModBlocks {
   public static final Map<Block, Block> BLOCK_TO_SLAB = new HashMap<>();
 
   public static Block registerWall(String name, Block baseBlock) {
-    Identifier id = Identifier.of("xander", name + "_wall");
-    RegistryKey<Block> blockKey = RegistryKey.of(Registries.BLOCK.getKey(), id);
-    RegistryKey<Item> itemKey = RegistryKey.of(Registries.ITEM.getKey(), id);
+    Identifier id = Identifier.fromNamespaceAndPath("xander", name + "_wall");
+    ResourceKey<Block> blockKey = ResourceKey.create(BuiltInRegistries.BLOCK.key(), id);
+    ResourceKey<Item> itemKey = ResourceKey.create(BuiltInRegistries.ITEM.key(), id);
 
-    BlockSoundGroup soundGroup = baseBlock.getDefaultState().getSoundGroup();
+    SoundType soundGroup = baseBlock.defaultBlockState().getSoundType();
 
-    MapColor mapColor = baseBlock.getDefaultMapColor();
+    MapColor mapColor = baseBlock.defaultMapColor();
 
     Block wall = new ModWallBlock(
-        AbstractBlock.Settings
-            .copy(baseBlock)
+        BlockBehaviour.Properties
+            .ofFullCopy(baseBlock)
             .mapColor(mapColor)
-            .registryKey(blockKey)
-            .strength(baseBlock.getHardness(), baseBlock.getBlastResistance())
-            .sounds(soundGroup));
-    Registry.register(Registries.BLOCK, id, wall);
+            .setId(blockKey)
+            .strength(baseBlock.defaultDestroyTime(), baseBlock.getExplosionResistance())
+            .sound(soundGroup));
+    Registry.register(BuiltInRegistries.BLOCK, id, wall);
 
     Registry.register(
-        Registries.ITEM,
+        BuiltInRegistries.ITEM,
         itemKey,
-        new BlockItem(wall, new Item.Settings().registryKey(itemKey)));
+        new BlockItem(wall, new Item.Properties().setId(itemKey)));
 
     BLOCK_TO_WALL.put(baseBlock, wall);
     return wall;
   }
 
   public static Block registerStairs(String name, Block baseBlock) {
-    Identifier id = Identifier.of("xander", name + "_stairs");
-    RegistryKey<Block> blockKey = RegistryKey.of(Registries.BLOCK.getKey(), id);
-    RegistryKey<Item> itemKey = RegistryKey.of(Registries.ITEM.getKey(), id);
+    Identifier id = Identifier.fromNamespaceAndPath("xander", name + "_stairs");
+    ResourceKey<Block> blockKey = ResourceKey.create(BuiltInRegistries.BLOCK.key(), id);
+    ResourceKey<Item> itemKey = ResourceKey.create(BuiltInRegistries.ITEM.key(), id);
 
-    BlockSoundGroup soundGroup = baseBlock.getDefaultState().getSoundGroup();
+    SoundType soundGroup = baseBlock.defaultBlockState().getSoundType();
 
-    MapColor mapColor = baseBlock.getDefaultMapColor();
+    MapColor mapColor = baseBlock.defaultMapColor();
 
     Block stairs = new ModStairsBlock(
-        baseBlock.getDefaultState(),
-        AbstractBlock.Settings
-            .copy(baseBlock)
+        baseBlock.defaultBlockState(),
+        BlockBehaviour.Properties
+            .ofFullCopy(baseBlock)
             .mapColor(mapColor)
-            .registryKey(blockKey)
-            .strength(baseBlock.getHardness(), baseBlock.getBlastResistance())
-            .sounds(soundGroup));
-    Registry.register(Registries.BLOCK, id, stairs);
+            .setId(blockKey)
+            .strength(baseBlock.defaultDestroyTime(), baseBlock.getExplosionResistance())
+            .sound(soundGroup));
+    Registry.register(BuiltInRegistries.BLOCK, id, stairs);
 
     Registry.register(
-        Registries.ITEM,
+        BuiltInRegistries.ITEM,
         itemKey,
-        new BlockItem(stairs, new Item.Settings().registryKey(itemKey)));
+        new BlockItem(stairs, new Item.Properties().setId(itemKey)));
 
     BLOCK_TO_STAIRS.put(baseBlock, stairs);
 
@@ -77,23 +76,23 @@ public class ModBlocks {
   }
 
   public static Block registerSlab(String name, Block baseBlock) {
-    Identifier id = Identifier.of("xander", name + "_slab");
-    RegistryKey<Block> blockKey = RegistryKey.of(Registries.BLOCK.getKey(), id);
-    RegistryKey<Item> itemKey = RegistryKey.of(Registries.ITEM.getKey(), id);
+    Identifier id = Identifier.fromNamespaceAndPath("xander", name + "_slab");
+    ResourceKey<Block> blockKey = ResourceKey.create(BuiltInRegistries.BLOCK.key(), id);
+    ResourceKey<Item> itemKey = ResourceKey.create(BuiltInRegistries.ITEM.key(), id);
 
-    BlockSoundGroup soundGroup = baseBlock.getDefaultState().getSoundGroup();
-    MapColor mapColor = baseBlock.getDefaultMapColor();
+    SoundType soundGroup = baseBlock.defaultBlockState().getSoundType();
+    MapColor mapColor = baseBlock.defaultMapColor();
 
     Block slab = new ModSlabBlock(
-        AbstractBlock.Settings
-            .copy(baseBlock)
+        BlockBehaviour.Properties
+            .ofFullCopy(baseBlock)
             .mapColor(mapColor)
-            .registryKey(blockKey)
-            .strength(baseBlock.getHardness(), baseBlock.getBlastResistance())
-            .sounds(soundGroup));
-    Registry.register(Registries.BLOCK, id, slab);
+            .setId(blockKey)
+            .strength(baseBlock.defaultDestroyTime(), baseBlock.getExplosionResistance())
+            .sound(soundGroup));
+    Registry.register(BuiltInRegistries.BLOCK, id, slab);
 
-    Registry.register(Registries.ITEM, itemKey, new BlockItem(slab, new Item.Settings().registryKey(itemKey)));
+    Registry.register(BuiltInRegistries.ITEM, itemKey, new BlockItem(slab, new Item.Properties().setId(itemKey)));
 
     BLOCK_TO_SLAB.put(baseBlock, slab);
 

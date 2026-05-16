@@ -2,32 +2,32 @@ package xander.mod.datagen;
 
 import java.util.concurrent.CompletableFuture;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.core.HolderLookup;
 import xander.mod.ModBlocks;
 
 public class ModLanguageGenerator extends FabricLanguageProvider {
-  public ModLanguageGenerator(FabricDataOutput dataOutput,
-      CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+  public ModLanguageGenerator(FabricPackOutput dataOutput,
+      CompletableFuture<HolderLookup.Provider> registryLookup) {
     super(dataOutput, "en_us", registryLookup);
   }
 
   @Override
-  public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup,
+  public void generateTranslations(HolderLookup.Provider registryLookup,
       TranslationBuilder translationBuilder) {
     ModBlocks.BLOCK_TO_WALL.forEach((log, wall) -> {
-      String wallName = createReadableName(wall.getTranslationKey());
+      String wallName = createReadableName(wall.getDescriptionId());
       translationBuilder.add(wall, wallName);
       translationBuilder.add(wall.asItem(), wallName);
     });
     ModBlocks.BLOCK_TO_STAIRS.forEach((block, stairs) -> {
-      String stairsName = createReadableName(stairs.getTranslationKey());
+      String stairsName = createReadableName(stairs.getDescriptionId());
       translationBuilder.add(stairs, stairsName);
       translationBuilder.add(stairs.asItem(), stairsName);
     });
     ModBlocks.BLOCK_TO_SLAB.forEach((block, slab) -> {
-      String slabName = createReadableName(slab.getTranslationKey());
+      String slabName = createReadableName(slab.getDescriptionId());
       translationBuilder.add(slab, slabName);
       translationBuilder.add(slab.asItem(), slabName);
     });

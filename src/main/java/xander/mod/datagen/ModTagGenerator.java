@@ -2,75 +2,75 @@ package xander.mod.datagen;
 
 import java.util.concurrent.CompletableFuture;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.minecraft.block.Block;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.TagBuilder;
-import net.minecraft.util.Identifier;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagBuilder;
+import net.minecraft.world.level.block.Block;
 import xander.mod.ModBlocks;
 
-public class ModTagGenerator extends FabricTagProvider.BlockTagProvider {
-  public ModTagGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+public class ModTagGenerator extends FabricTagsProvider.BlockTagsProvider {
+  public ModTagGenerator(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
     super(output, registriesFuture);
   }
 
   @Override
-  protected void configure(RegistryWrapper.WrapperLookup registries) {
-    TagBuilder wallTag = getTagBuilder(BlockTags.WALLS);
-    TagBuilder stairsTag = getTagBuilder(BlockTags.STAIRS);
-    TagBuilder slabTag = getTagBuilder(BlockTags.SLABS);
+  protected void addTags(HolderLookup.Provider registries) {
+    TagBuilder wallTag = getOrCreateRawBuilder(BlockTags.WALLS);
+    TagBuilder stairsTag = getOrCreateRawBuilder(BlockTags.STAIRS);
+    TagBuilder slabTag = getOrCreateRawBuilder(BlockTags.SLABS);
 
-    TagBuilder axeTag = getTagBuilder(BlockTags.AXE_MINEABLE);
-    TagBuilder pickaxeTag = getTagBuilder(BlockTags.PICKAXE_MINEABLE);
-    TagBuilder hoeTag = getTagBuilder(BlockTags.HOE_MINEABLE);
+    TagBuilder axeTag = getOrCreateRawBuilder(BlockTags.MINEABLE_WITH_AXE);
+    TagBuilder pickaxeTag = getOrCreateRawBuilder(BlockTags.MINEABLE_WITH_PICKAXE);
+    TagBuilder hoeTag = getOrCreateRawBuilder(BlockTags.MINEABLE_WITH_HOE);
 
-    TagBuilder logsThatBurnTag = getTagBuilder(BlockTags.LOGS_THAT_BURN);
-    TagBuilder woolTag = getTagBuilder(BlockTags.WOOL);
+    TagBuilder logsThatBurnTag = getOrCreateRawBuilder(BlockTags.LOGS_THAT_BURN);
+    TagBuilder woolTag = getOrCreateRawBuilder(BlockTags.WOOL);
 
     ModBlocks.BLOCK_TO_WALL.forEach((base, wall) -> {
-      Identifier wallId = Identifier.of("xander", wall.getTranslationKey().replace("block.xander.", ""));
-      wallTag.add(wallId);
+      Identifier wallId = Identifier.fromNamespaceAndPath("xander", wall.getDescriptionId().replace("block.xander.", ""));
+      wallTag.addElement(wallId);
       if (isLog(base)) {
-        axeTag.add(wallId);
-      logsThatBurnTag.add(wallId);
+        axeTag.addElement(wallId);
+      logsThatBurnTag.addElement(wallId);
       } else {
-        pickaxeTag.add(wallId);
+        pickaxeTag.addElement(wallId);
       }
     });
 
     ModBlocks.BLOCK_TO_STAIRS.forEach((base, stairs) -> {
-      Identifier stairsId = Identifier.of("xander", stairs.getTranslationKey().replace("block.xander.", ""));
-      stairsTag.add(stairsId);
+      Identifier stairsId = Identifier.fromNamespaceAndPath("xander", stairs.getDescriptionId().replace("block.xander.", ""));
+      stairsTag.addElement(stairsId);
       if (isWool(base)) {
-        woolTag.add(stairsId);
-        hoeTag.add(stairsId);
+        woolTag.addElement(stairsId);
+        hoeTag.addElement(stairsId);
       } else if (isLog(base)) {
-        axeTag.add(stairsId);
-        logsThatBurnTag.add(stairsId);
+        axeTag.addElement(stairsId);
+        logsThatBurnTag.addElement(stairsId);
       }
     });
 
     ModBlocks.BLOCK_TO_SLAB.forEach((base, slab) -> {
-      Identifier slabId = Identifier.of("xander", slab.getTranslationKey().replace("block.xander.", ""));
-      slabTag.add(slabId);
+      Identifier slabId = Identifier.fromNamespaceAndPath("xander", slab.getDescriptionId().replace("block.xander.", ""));
+      slabTag.addElement(slabId);
       if (isWool(base)) {
-        woolTag.add(slabId);
-        hoeTag.add(slabId);
+        woolTag.addElement(slabId);
+        hoeTag.addElement(slabId);
       } else if (isLog(base)) {
-        axeTag.add(slabId);
-        logsThatBurnTag.add(slabId);
+        axeTag.addElement(slabId);
+        logsThatBurnTag.addElement(slabId);
       }
     });
   }
 
   private boolean isWool(Block block) {
-    return Registries.BLOCK.getId(block).getPath().contains("wool");
+    return BuiltInRegistries.BLOCK.getKey(block).getPath().contains("wool");
   }
 
   private boolean isLog(Block block) {
-    return Registries.BLOCK.getId(block).getPath().contains("log");
+    return BuiltInRegistries.BLOCK.getKey(block).getPath().contains("log");
   }
 }
