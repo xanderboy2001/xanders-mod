@@ -5,12 +5,11 @@ import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagBuilder;
-import net.minecraft.world.level.block.Block;
 import xander.mod.ModBlocks;
+import xander.mod.ModBlocks.BlockCategory;
 
 public class ModTagGenerator extends FabricTagsProvider.BlockTagsProvider {
   public ModTagGenerator(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
@@ -33,10 +32,14 @@ public class ModTagGenerator extends FabricTagsProvider.BlockTagsProvider {
     ModBlocks.BLOCK_TO_WALL.forEach((base, wall) -> {
       Identifier wallId = Identifier.fromNamespaceAndPath("xander", wall.getDescriptionId().replace("block.xander.", ""));
       wallTag.addElement(wallId);
-      if (isLog(base)) {
+      BlockCategory cat = ModBlocks.categoryOf(base);
+      if (cat == BlockCategory.LOG || cat == BlockCategory.PLANK) {
         axeTag.addElement(wallId);
-      logsThatBurnTag.addElement(wallId);
+        if (cat == BlockCategory.LOG) {
+          logsThatBurnTag.addElement(wallId);
+        }
       } else {
+        // WOOL, TERRACOTTA, CONCRETE, STONE
         pickaxeTag.addElement(wallId);
       }
     });
@@ -44,33 +47,37 @@ public class ModTagGenerator extends FabricTagsProvider.BlockTagsProvider {
     ModBlocks.BLOCK_TO_STAIRS.forEach((base, stairs) -> {
       Identifier stairsId = Identifier.fromNamespaceAndPath("xander", stairs.getDescriptionId().replace("block.xander.", ""));
       stairsTag.addElement(stairsId);
-      if (isWool(base)) {
-        woolTag.addElement(stairsId);
-        hoeTag.addElement(stairsId);
-      } else if (isLog(base)) {
-        axeTag.addElement(stairsId);
-        logsThatBurnTag.addElement(stairsId);
+      switch (ModBlocks.categoryOf(base)) {
+        case WOOL -> {
+          woolTag.addElement(stairsId);
+          hoeTag.addElement(stairsId);
+        }
+        case LOG -> {
+          axeTag.addElement(stairsId);
+          logsThatBurnTag.addElement(stairsId);
+        }
+        case TERRACOTTA, CONCRETE, STONE, PLANK -> {
+          // No special tags for these yet.
+        }
       }
     });
 
     ModBlocks.BLOCK_TO_SLAB.forEach((base, slab) -> {
       Identifier slabId = Identifier.fromNamespaceAndPath("xander", slab.getDescriptionId().replace("block.xander.", ""));
       slabTag.addElement(slabId);
-      if (isWool(base)) {
-        woolTag.addElement(slabId);
-        hoeTag.addElement(slabId);
-      } else if (isLog(base)) {
-        axeTag.addElement(slabId);
-        logsThatBurnTag.addElement(slabId);
+      switch (ModBlocks.categoryOf(base)) {
+        case WOOL -> {
+          woolTag.addElement(slabId);
+          hoeTag.addElement(slabId);
+        }
+        case LOG -> {
+          axeTag.addElement(slabId);
+          logsThatBurnTag.addElement(slabId);
+        }
+        case TERRACOTTA, CONCRETE, STONE, PLANK -> {
+          // No special tags for these yet.
+        }
       }
     });
-  }
-
-  private boolean isWool(Block block) {
-    return BuiltInRegistries.BLOCK.getKey(block).getPath().contains("wool");
-  }
-
-  private boolean isLog(Block block) {
-    return BuiltInRegistries.BLOCK.getKey(block).getPath().contains("log");
   }
 }

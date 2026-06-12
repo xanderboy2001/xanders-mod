@@ -2,10 +2,7 @@ package xander.mod;
 
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTabOutput;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.level.block.Block;
 
 public class ModItemGroups {
   public static void register() {
@@ -24,19 +21,19 @@ public class ModItemGroups {
     // Desired [Base] -> [Stairs] -> [Slab] -> [Wall]
 
     ModBlocks.BLOCK_TO_WALL.forEach((base, wall) -> {
-      if (!isWool(base)) {
+      if (!ModBlocks.isWool(base)) {
         entries.insertAfter(base, wall);
       }
     });
 
     ModBlocks.BLOCK_TO_SLAB.forEach((base, slab) -> {
-      if (!isWool(base)) {
+      if (!ModBlocks.isWool(base)) {
         entries.insertAfter(base, slab);
       }
     });
 
     ModBlocks.BLOCK_TO_STAIRS.forEach((base, stairs) -> {
-      if (!isWool(base)) {
+      if (!ModBlocks.isWool(base)) {
         entries.insertAfter(base, stairs);
       }
     });
@@ -44,27 +41,21 @@ public class ModItemGroups {
 
   public static void addColoredVariants(FabricCreativeModeTabOutput entries) {
     ModBlocks.BLOCK_TO_WALL.forEach((base, wall) -> {
-      if (isWool(base)) {
+      if (ModBlocks.isWool(base)) {
         entries.insertAfter(base, wall);
       }
     });
 
     ModBlocks.BLOCK_TO_SLAB.forEach((base, slab) -> {
-      if (isWool(base)) {
+      if (ModBlocks.isWool(base)) {
         entries.insertAfter(base, slab);
       }
     });
 
     ModBlocks.BLOCK_TO_STAIRS.forEach((base, stairs) -> {
-      if (isWool(base)) {
+      if (ModBlocks.isWool(base)) {
         entries.insertAfter(base, stairs);
       }
     });
-  }
-
-  private static boolean isWool(Block block) {
-    Identifier id = BuiltInRegistries.BLOCK.getKey(block);
-
-    return id.getPath().contains("wool");
   }
 }
