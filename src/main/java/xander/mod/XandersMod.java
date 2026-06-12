@@ -25,6 +25,7 @@ public class XandersMod implements ModInitializer {
 		ModBlocks.registerWoolStairs();
 		ModBlocks.registerLogSlabs();
 		ModBlocks.registerWoolSlabs();
+		ModBlocks.registerPlankWalls();
 		ModItemGroups.register();
 
 		LOGGER.info("Hello Fabric world!");

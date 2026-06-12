@@ -246,4 +246,19 @@ public class ModBlocks {
     registerSlab("red_wool", Blocks.RED_WOOL);
     registerSlab("black_wool", Blocks.BLACK_WOOL);
   }
+
+  public static void registerPlankWalls() {
+    registerWall("oak_planks", Blocks.OAK_PLANKS);
+    registerWall("spruce_planks", Blocks.SPRUCE_PLANKS);
+    registerWall("birch_planks", Blocks.BIRCH_PLANKS);
+    registerWall("jungle_planks", Blocks.JUNGLE_PLANKS);
+    registerWall("acacia_planks", Blocks.ACACIA_PLANKS);
+    registerWall("dark_oak_planks", Blocks.DARK_OAK_PLANKS);
+    registerWall("mangrove_planks", Blocks.MANGROVE_PLANKS);
+    registerWall("cherry_planks", Blocks.CHERRY_PLANKS);
+    registerWall("pale_oak_planks", Blocks.PALE_OAK_PLANKS);
+    registerWall("bamboo_planks", Blocks.BAMBOO_PLANKS);
+    registerWall("crimson_planks", Blocks.CRIMSON_PLANKS);
+    registerWall("warped_planks", Blocks.WARPED_PLANKS);
+  }
 }
