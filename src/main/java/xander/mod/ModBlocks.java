@@ -261,4 +261,23 @@ public class ModBlocks {
     registerWall("crimson_planks", Blocks.CRIMSON_PLANKS);
     registerWall("warped_planks", Blocks.WARPED_PLANKS);
   }
+
+  public void registerWoolWalls() {
+    registerWall("white_wool", Blocks.WHITE_WOOL);
+    registerWall("orange_wool", Blocks.ORANGE_WOOL);
+    registerWall("magenta_wool", Blocks.MAGENTA_WOOL);
+    registerWall("light_blue_wool", Blocks.LIGHT_BLUE_WOOL);
+    registerWall("yellow_wool", Blocks.YELLOW_WOOL);
+    registerWall("lime_wool", Blocks.LIME_WOOL);
+    registerWall("pink_wool", Blocks.PINK_WOOL);
+    registerWall("gray_wool", Blocks.GRAY_WOOL);
+    registerWall("light_gray_wool", Blocks.LIGHT_GRAY_WOOL);
+    registerWall("cyan_wool", Blocks.CYAN_WOOL);
+    registerWall("purple_wool", Blocks.PURPLE_WOOL);
+    registerWall("blue_wool", Blocks.BLUE_WOOL);
+    registerWall("brown_wool", Blocks.BROWN_WOOL);
+    registerWall("green_wool", Blocks.GREEN_WOOL);
+    registerWall("red_wool", Blocks.RED_WOOL);
+    registerWall("black_wool", Blocks.BLACK_WOOL);
+  }
 }
