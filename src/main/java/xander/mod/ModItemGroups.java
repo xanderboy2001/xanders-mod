@@ -21,19 +21,19 @@ public class ModItemGroups {
     // Desired [Base] -> [Stairs] -> [Slab] -> [Wall]
 
     ModBlocks.BLOCK_TO_WALL.forEach((base, wall) -> {
-      if (!ModBlocks.isWool(base)) {
+      if (!ModBlocks.isWool(base) && !ModBlocks.isNatural(base)) {
         entries.insertAfter(base, wall);
       }
     });
 
     ModBlocks.BLOCK_TO_SLAB.forEach((base, slab) -> {
-      if (!ModBlocks.isWool(base)) {
+      if (!ModBlocks.isWool(base) && !ModBlocks.isNatural(base)) {
         entries.insertAfter(base, slab);
       }
     });
 
     ModBlocks.BLOCK_TO_STAIRS.forEach((base, stairs) -> {
-      if (!ModBlocks.isWool(base)) {
+      if (!ModBlocks.isWool(base) && !ModBlocks.isNatural(base)) {
         entries.insertAfter(base, stairs);
       }
     });
@@ -54,6 +54,26 @@ public class ModItemGroups {
 
     ModBlocks.BLOCK_TO_STAIRS.forEach((base, stairs) -> {
       if (ModBlocks.isWool(base)) {
+        entries.insertAfter(base, stairs);
+      }
+    });
+  }
+
+  public static void addNaturalVariants(FabricCreativeModeTabOutput entries) {
+    ModBlocks.BLOCK_TO_WALL.forEach((base, wall) -> {
+      if (ModBlocks.isNatural(base)) {
+        entries.insertAfter(base, wall);
+      }
+    });
+
+    ModBlocks.BLOCK_TO_SLAB.forEach((base, slab) -> {
+      if (ModBlocks.isNatural(base)) {
+        entries.insertAfter(base, slab);
+      }
+    });
+
+    ModBlocks.BLOCK_TO_STAIRS.forEach((base, stairs) -> {
+      if (ModBlocks.isNatural(base)) {
         entries.insertAfter(base, stairs);
       }
     });

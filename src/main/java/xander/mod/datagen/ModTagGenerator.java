@@ -25,6 +25,7 @@ public class ModTagGenerator extends FabricTagsProvider.BlockTagsProvider {
     TagBuilder axeTag = getOrCreateRawBuilder(BlockTags.MINEABLE_WITH_AXE);
     TagBuilder pickaxeTag = getOrCreateRawBuilder(BlockTags.MINEABLE_WITH_PICKAXE);
     TagBuilder hoeTag = getOrCreateRawBuilder(BlockTags.MINEABLE_WITH_HOE);
+    TagBuilder shovelTag = getOrCreateRawBuilder(BlockTags.MINEABLE_WITH_SHOVEL);
 
     TagBuilder logsThatBurnTag = getOrCreateRawBuilder(BlockTags.LOGS_THAT_BURN);
     TagBuilder woolTag = getOrCreateRawBuilder(BlockTags.WOOL);
@@ -32,15 +33,18 @@ public class ModTagGenerator extends FabricTagsProvider.BlockTagsProvider {
     ModBlocks.BLOCK_TO_WALL.forEach((base, wall) -> {
       Identifier wallId = Identifier.fromNamespaceAndPath("xander", wall.getDescriptionId().replace("block.xander.", ""));
       wallTag.addElement(wallId);
-      BlockCategory cat = ModBlocks.categoryOf(base);
-      if (cat == BlockCategory.LOG || cat == BlockCategory.PLANK) {
-        axeTag.addElement(wallId);
-        if (cat == BlockCategory.LOG) {
+      switch (ModBlocks.categoryOf(base)) {
+        case WOOL -> {
+          woolTag.addElement(wallId);
+          hoeTag.addElement(wallId);
+        }
+        case LOG -> {
+          axeTag.addElement(wallId);
           logsThatBurnTag.addElement(wallId);
         }
-      } else {
-        // WOOL, TERRACOTTA, CONCRETE, STONE
-        pickaxeTag.addElement(wallId);
+        case PLANK -> axeTag.addElement(wallId);
+        case NATURAL -> shovelTag.addElement(wallId);
+        default -> pickaxeTag.addElement(wallId);
       }
     });
 
@@ -56,9 +60,11 @@ public class ModTagGenerator extends FabricTagsProvider.BlockTagsProvider {
           axeTag.addElement(stairsId);
           logsThatBurnTag.addElement(stairsId);
         }
-        case TERRACOTTA, CONCRETE, STONE, PLANK -> {
-          // No special tags for these yet.
+        case NATURAL -> {
+          shovelTag.addElement(stairsId);
         }
+        case PLANK -> axeTag.addElement(stairsId);
+        default -> {}
       }
     });
 
@@ -74,9 +80,9 @@ public class ModTagGenerator extends FabricTagsProvider.BlockTagsProvider {
           axeTag.addElement(slabId);
           logsThatBurnTag.addElement(slabId);
         }
-        case TERRACOTTA, CONCRETE, STONE, PLANK -> {
-          // No special tags for these yet.
-        }
+        case NATURAL -> shovelTag.addElement(slabId);
+        case PLANK -> axeTag.addElement(slabId);
+        default-> {}
       }
     });
   }

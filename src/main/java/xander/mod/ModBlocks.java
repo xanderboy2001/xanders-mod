@@ -20,12 +20,13 @@ public class ModBlocks {
    * and other consumers without resorting to string matching on block IDs.
    */
   public enum BlockCategory {
-    WOOL,        // mineable with hoe, COLORED_BLOCKS tab
-    LOG,         // mineable with axe, BUILDING_BLOCKS tab, strippable
-    PLANK,       // mineable with axe, BUILDING_BLOCKS tab
-    TERRACOTTA,  // mineable with pickaxe, COLORED_BLOCKS tab
-    CONCRETE,    // mineable with pickaxe, COLORED_BLOCKS tab
-    STONE        // mineable with pickaxe, BUILDING_BLOCKS tab
+    WOOL, // mineable with hoe, COLORED_BLOCKS tab
+    LOG, // mineable with axe, BUILDING_BLOCKS tab, strippable
+    PLANK, // mineable with axe, BUILDING_BLOCKS tab
+    TERRACOTTA, // mineable with pickaxe, COLORED_BLOCKS tab
+    CONCRETE, // mineable with pickaxe, COLORED_BLOCKS tab
+    NATURAL, // mineable with shovel, NATURAL_BLOCKS tab
+    STONE // mineable with pickaxe, BUILDING_BLOCKS tab
   }
 
   public static final Map<Block, Block> BLOCK_TO_WALL = new HashMap<>();
@@ -35,17 +36,40 @@ public class ModBlocks {
   /** Maps each registered base block to its BlockCategory. */
   public static final Map<Block, BlockCategory> CATEGORY = new HashMap<>();
 
-  /** Looks up the category of a base block, defaulting to STONE if unregistered. */
+  /**
+   * Looks up the category of a base block, defaulting to STONE if unregistered.
+   */
   public static BlockCategory categoryOf(Block block) {
     return CATEGORY.getOrDefault(block, BlockCategory.STONE);
   }
 
-  public static boolean isWool(Block b)      { return categoryOf(b) == BlockCategory.WOOL; }
-  public static boolean isLog(Block b)       { return categoryOf(b) == BlockCategory.LOG; }
-  public static boolean isPlank(Block b)     { return categoryOf(b) == BlockCategory.PLANK; }
-  public static boolean isTerracotta(Block b){ return categoryOf(b) == BlockCategory.TERRACOTTA; }
-  public static boolean isConcrete(Block b)  { return categoryOf(b) == BlockCategory.CONCRETE; }
-  public static boolean isStone(Block b)     { return categoryOf(b) == BlockCategory.STONE; }
+  public static boolean isWool(Block b) {
+    return categoryOf(b) == BlockCategory.WOOL;
+  }
+
+  public static boolean isLog(Block b) {
+    return categoryOf(b) == BlockCategory.LOG;
+  }
+
+  public static boolean isPlank(Block b) {
+    return categoryOf(b) == BlockCategory.PLANK;
+  }
+
+  public static boolean isTerracotta(Block b) {
+    return categoryOf(b) == BlockCategory.TERRACOTTA;
+  }
+
+  public static boolean isConcrete(Block b) {
+    return categoryOf(b) == BlockCategory.CONCRETE;
+  }
+
+  public static boolean isNatural(Block b) {
+    return categoryOf(b) == BlockCategory.NATURAL;
+  }
+
+  public static boolean isStone(Block b) {
+    return categoryOf(b) == BlockCategory.STONE;
+  }
 
   public static Block registerWall(String name, Block baseBlock, BlockCategory category) {
     Identifier id = Identifier.fromNamespaceAndPath("xander", name + "_wall");
@@ -310,5 +334,15 @@ public class ModBlocks {
     registerWall("green_wool", Blocks.GREEN_WOOL, BlockCategory.WOOL);
     registerWall("red_wool", Blocks.RED_WOOL, BlockCategory.WOOL);
     registerWall("black_wool", Blocks.BLACK_WOOL, BlockCategory.WOOL);
+  }
+
+  public static void registerNaturalSlabs() {
+    registerSlab("dirt", Blocks.DIRT, BlockCategory.NATURAL);
+    registerSlab("grass_block", Blocks.GRASS_BLOCK, BlockCategory.NATURAL);
+  }
+
+  public static void registerNaturalStairs() {
+    registerStairs("dirt", Blocks.DIRT, BlockCategory.NATURAL);
+    registerStairs("grass_block", Blocks.GRASS_BLOCK, BlockCategory.NATURAL);
   }
 }
