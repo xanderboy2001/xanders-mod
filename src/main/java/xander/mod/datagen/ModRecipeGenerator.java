@@ -41,6 +41,15 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
           slab(RecipeCategory.BUILDING_BLOCKS, slab, base);
           stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, slab, base);
         });
+
+        ModBlocks.BLOCK_TO_LAYER.forEach((base, layer) -> {
+          shaped(RecipeCategory.BUILDING_BLOCKS, layer, 6)
+            .pattern("###")
+            .define('#', base)
+            .unlockedBy(getHasName(base), has(base))
+            .save(output);
+          stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, layer, base, 8);
+        });
       }
     };
   }

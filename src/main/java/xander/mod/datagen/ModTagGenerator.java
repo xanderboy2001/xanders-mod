@@ -9,7 +9,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagBuilder;
 import xander.mod.ModBlocks;
-import xander.mod.ModBlocks.BlockCategory;
 
 public class ModTagGenerator extends FabricTagsProvider.BlockTagsProvider {
   public ModTagGenerator(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
@@ -30,8 +29,19 @@ public class ModTagGenerator extends FabricTagsProvider.BlockTagsProvider {
     TagBuilder logsThatBurnTag = getOrCreateRawBuilder(BlockTags.LOGS_THAT_BURN);
     TagBuilder woolTag = getOrCreateRawBuilder(BlockTags.WOOL);
 
+    ModBlocks.BLOCK_TO_LAYER.forEach((base, layer) -> {
+      Identifier layerId = Identifier.fromNamespaceAndPath("xander",
+          layer.getDescriptionId().replace("block.xander.", ""));
+
+      switch (ModBlocks.categoryOf(base)) {
+        case NATURAL -> shovelTag.addElement(layerId);
+        default -> pickaxeTag.addElement(layerId);
+      }
+    });
+
     ModBlocks.BLOCK_TO_WALL.forEach((base, wall) -> {
-      Identifier wallId = Identifier.fromNamespaceAndPath("xander", wall.getDescriptionId().replace("block.xander.", ""));
+      Identifier wallId = Identifier.fromNamespaceAndPath("xander",
+          wall.getDescriptionId().replace("block.xander.", ""));
       wallTag.addElement(wallId);
       switch (ModBlocks.categoryOf(base)) {
         case WOOL -> {
@@ -49,7 +59,8 @@ public class ModTagGenerator extends FabricTagsProvider.BlockTagsProvider {
     });
 
     ModBlocks.BLOCK_TO_STAIRS.forEach((base, stairs) -> {
-      Identifier stairsId = Identifier.fromNamespaceAndPath("xander", stairs.getDescriptionId().replace("block.xander.", ""));
+      Identifier stairsId = Identifier.fromNamespaceAndPath("xander",
+          stairs.getDescriptionId().replace("block.xander.", ""));
       stairsTag.addElement(stairsId);
       switch (ModBlocks.categoryOf(base)) {
         case WOOL -> {
@@ -64,12 +75,14 @@ public class ModTagGenerator extends FabricTagsProvider.BlockTagsProvider {
           shovelTag.addElement(stairsId);
         }
         case PLANK -> axeTag.addElement(stairsId);
-        default -> {}
+        default -> {
+        }
       }
     });
 
     ModBlocks.BLOCK_TO_SLAB.forEach((base, slab) -> {
-      Identifier slabId = Identifier.fromNamespaceAndPath("xander", slab.getDescriptionId().replace("block.xander.", ""));
+      Identifier slabId = Identifier.fromNamespaceAndPath("xander",
+          slab.getDescriptionId().replace("block.xander.", ""));
       slabTag.addElement(slabId);
       switch (ModBlocks.categoryOf(base)) {
         case WOOL -> {
@@ -82,7 +95,8 @@ public class ModTagGenerator extends FabricTagsProvider.BlockTagsProvider {
         }
         case NATURAL -> shovelTag.addElement(slabId);
         case PLANK -> axeTag.addElement(slabId);
-        default-> {}
+        default -> {
+        }
       }
     });
   }

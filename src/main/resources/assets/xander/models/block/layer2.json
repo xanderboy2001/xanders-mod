@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "layer0": "#layer0",
+    "particle": "#layer0"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 2, 16],
+      "faces": {
+        "down": { "texture": "#layer0" },
+        "up": { "texture": "#layer0" },
+        "north": { "texture": "#layer0" },
+        "south": { "texture": "#layer0" },
+        "east": { "texture": "#layer0" },
+        "west": { "texture": "#layer0" }
+      }
+    }
+  ]
+}

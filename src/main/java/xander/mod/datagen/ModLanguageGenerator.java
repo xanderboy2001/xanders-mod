@@ -31,6 +31,11 @@ public class ModLanguageGenerator extends FabricLanguageProvider {
       translationBuilder.add(slab, slabName);
       translationBuilder.add(slab.asItem(), slabName);
     });
+    ModBlocks.BLOCK_TO_LAYER.forEach((block, layer) -> {
+      String layerName = createReadableName(layer.getDescriptionId());
+      translationBuilder.add(layer, layerName);
+      translationBuilder.add(layer.asItem(), layerName);
+    });
   }
 
   private String createReadableName(String translationKey) {

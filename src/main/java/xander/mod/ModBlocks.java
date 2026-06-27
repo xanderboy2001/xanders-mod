@@ -1,9 +1,11 @@
 package xander.mod;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
@@ -32,6 +34,7 @@ public class ModBlocks {
   public static final Map<Block, Block> BLOCK_TO_WALL = new HashMap<>();
   public static final Map<Block, Block> BLOCK_TO_STAIRS = new HashMap<>();
   public static final Map<Block, Block> BLOCK_TO_SLAB = new HashMap<>();
+  public static final Map<Block, Block> BLOCK_TO_LAYER = new LinkedHashMap<>();
 
   /** Maps each registered base block to its BlockCategory. */
   public static final Map<Block, BlockCategory> CATEGORY = new HashMap<>();
@@ -69,6 +72,23 @@ public class ModBlocks {
 
   public static boolean isStone(Block b) {
     return categoryOf(b) == BlockCategory.STONE;
+  }
+
+  public static final Block DIRT_LAYER = registerLayer("dirt_layer", Blocks.DIRT);
+
+  public static Block registerLayer(String name, Block baseBlock) {
+    Identifier id = Identifier.fromNamespaceAndPath("xander", name);
+    ResourceKey<Block> blockKey = ResourceKey.create(Registries.BLOCK, id);
+    ResourceKey<Item> itemKey = ResourceKey.create(BuiltInRegistries.ITEM.key(), id);
+
+    Block.Properties properties = Block.Properties.ofFullCopy(baseBlock).setId(blockKey).noOcclusion();
+    ModLayerBlock layerBlock = new ModLayerBlock(properties);
+
+    Registry.register(BuiltInRegistries.BLOCK, id, layerBlock);
+    Registry.register(BuiltInRegistries.ITEM, id, new BlockItem(layerBlock, new Item.Properties().setId(itemKey)));
+
+    BLOCK_TO_LAYER.put(baseBlock, layerBlock);
+    return layerBlock;
   }
 
   public static Block registerWall(String name, Block baseBlock, BlockCategory category) {
